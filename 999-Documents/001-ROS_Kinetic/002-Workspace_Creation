@@ -1,0 +1,13 @@
+@@@ ROS Kinetic Workspace Creation
+@@@ VincentChan
+@@@ 4th-March 2020
+
+$ mkdir -p ~/catkin_ws/src
+$ cd ~/catkin_ws/
+$ catkin_make
+
+Activate your Workspace
+$ source devel/setup.bash
+
+$ echo $ROS_PACKAGE_PATH
+

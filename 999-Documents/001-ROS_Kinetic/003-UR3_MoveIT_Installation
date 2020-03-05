@@ -1,0 +1,102 @@
+@@@ Install ROS Package (Moveit) for UR3 robot
+@@@ VincentChan
+@@@ 4th-March 2020
+
+1) Install the dependencies
+  $ sudo apt-get install ros-kinetic-moveit
+  $ sudo apt-get install ros-kinetic-universal-robot
+  $ sudo apt-get install ros-kinetic-industrial-core
+
+2) Go to catkin_ws/src
+  $ git clone -b kinetic-devel https://github.com/ros-industrial/universal_robot.git
+  $ git clone -b kinetic-devel https://github.com/ros-industrial/ur_modern_driver.git
+  $ catkin_make
+
+3) Noted that ur3_ip = 158.132.153.174
+  $ ping ur3_ip to test connection
+
+4) Launch moveit assistant to create own controller
+  $ roslaunch moveit_setup_assistant setup_assistant.launch
+
+5) Inside "moveit! assistant"
+  
+  5.1) Create new or edit exexisting?
+       Choose "Create New Moveit"
+       Load catkin_ws/src/universal_robot/ur_description/urdf/ur3_robot.urdf.xacro
+
+
+  5.2) Optimize Welf-Collision Checking
+       Choose "Generate Collision Matrix"
+
+  5.3) Define Planning Groups
+       Group Name: ur3
+       kinematic Solver: UR3KinematicsPlugin
+       Group Default PLANNER: RRT
+       Add Kin. Chain 
+
+       "Expand All"
+       Base Link = base_link
+       Tip Link = tool0
+
+  5.4) Define Robot Poses
+       You can define some pose here (optional)
+
+  5.5) Setup ROS Controllers
+       Choose "Auto Add Follow Joints Trajectory ..."
+
+  5.6) Specify Author Information
+       Name: "as you like"
+       Email: "as you like"
+
+  5.7) Generate Configuration Files
+       Open a new folder named "robot_moveit"
+       Configre this new folder as save path
+       Choose "Generate Package"
+
+6) Create controllers.yaml
+   Inside catkin_ws/src/robot_moveit/config, create a controllers.yaml
+   Copy the following to it:
+   //For name :(none for UR3, scaled_pos_traj_controller for UR5)
+   //Never put a spacebar in the name for UR3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     controller_list:
+       - name: "" 
+         action_ns: follow_joint_trajectory
+         type: FollowJointTrajectory
+         joints:
+           - shoulder_pan_joint
+           - shoulder_lift_joint
+           - elbow_joint
+           - wrist_1_joint
+           - wrist_2_joint
+           - wrist_3_joint
+
+7) Create robot_planning.launch
+   Inside catkin_ws/src/robot_moveit/launch
+   Copy demo.launch and rename as robot_planning.launch
+
+   ****Please comment the following if you are connected to the robot
+    <!-- We do not have a robot connected, so publish fake joint states 
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="use_gui" value="$(arg use_gui)"/>
+      <rosparam param="source_list">[move_group/fake_controller_joint_states]</rosparam>
+    </node>  -->   
+
+   This will give you a fake shaow which is used for simulation
+
+   ****Change this parameter
+   fake_execution -> false (for real robot)      
+
+
+8) Edit robot_moveit/launch/ur3_moveit_controller_manager.launch.xml
+   Replace all content by:
+    <launch>
+      <rosparam file="$(find robot_moveit)/config/controllers.yaml"/>
+      <param name="use_controller_manager" value="false"/>
+      <param name="trajectory_execution/execution_duration_monitoring" value="false"/>
+      <param name="moveit_controller_manager" value="moveit_simple_controller_manager/MoveItSimpleControllerManager"/>
+    </launch>
+
+9) Launch and test
+  $ source devel/setup.bash
+  $ roslaunch ur_modern_driver ur3_bringup.launch robot_ip:=158.132.153.174
+  $ roslaunch robot_moveit robot_planning.launch

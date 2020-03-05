@@ -1,0 +1,50 @@
+@@@ Add Environment to UR3
+@@@ VincentChan
+@@@ 4th-March 2020
+
+1) Edit the /catkin_ws/src/universal_robot/ur_description/urdf/ur3_robot.urdf.xacro
+   Add your own simple environment in this urdf
+   For example:
+   <link name="bar2">
+    <visual>
+      <geometry>
+        <box size="0.8 0.04 0.04"/>
+      </geometry>
+      <material name="Steel">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.8 0.04 0.04"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="world_to_bar2" type="fixed">
+    <parent link="world"/>
+    <child link="bar2"/>
+    <origin xyz="0 0.038 -0.02" rpy="0 0 0"/>
+  </joint>
+
+  </joint>
+
+2) Set joint_limited = true in ur3_robot_urdf.xacro
+  <xacro:ur3_robot prefix="" joint_limited="true"
+    transmission_hw_interface="$(arg transmission_hw_interface)"
+  />
+
+3) Open moveit assistant again and load it
+
+4) Regenerate collision matrix
+
+5) Generate package
+
+6) $ catkin_make
+
+7) $ source devel/setup.bash
+
+8) Launch and test
+  $ source devel/setup.bash
+  $ roslaunch ur_modern_driver ur3_bringup.launch robot_ip:=158.132.153.174
+  $ roslaunch robot_moveit robot_planning.launch
