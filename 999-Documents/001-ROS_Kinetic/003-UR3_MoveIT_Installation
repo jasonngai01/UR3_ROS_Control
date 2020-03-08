@@ -20,7 +20,7 @@
 
 5) Inside "moveit! assistant"
   
-  5.1) Create new or edit exexisting?
+  5.1) Create new or edit existing?
        Choose "Create New Moveit"
        Load catkin_ws/src/universal_robot/ur_description/urdf/ur3_robot.urdf.xacro
 

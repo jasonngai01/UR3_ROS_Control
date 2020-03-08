@@ -1,0 +1,31 @@
+@@@ Using python2.7 to control UR3
+@@@ VincentChan
+@@@ 6th-March 2020
+
+Confirm you have import all necessary libraries
+   import numpy as np (V)
+   import time (V)
+   import sys (V)
+   import copy (V)
+   import rospy (V)
+   import moveit_commander (X)
+   import moveit_msgs.msg (V)
+   import geometry_msgs.msg (V)
+   from math import pi (V)
+   from std_msgs.msg import String (V)
+
+   V: means ususally will not have problem during import
+   X: means you may encounter error
+
+   For import moveit_commander, you may have error about "Failed to import pyassimp, see https://github.com/ros-planning/moveit/issues/86 for more info"
+   Solutions:
+       $ git clone https://github.com/assimp/assimp.git
+       $ cd assimp
+       $ cmake CMakeLists.txt
+       $ make -j4
+       $ cd port/PyAssimp/
+       $ sudo python set.py install
+    
+    Then it should be able to solve the error.
+
+
