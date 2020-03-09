@@ -1,0 +1,63 @@
+#include <ros/ros.h> 
+#include <pcl/point_cloud.h> 
+#include <pcl_conversions/pcl_conversions.h> 
+#include <sensor_msgs/PointCloud2.h> 
+
+main (int argc, char **argv) 
+{ 
+  ros::init (argc, argv, "show_point_cloud"); 
+	
+  ros::NodeHandle nh; 
+  ros::Publisher pcl_pub = nh.advertise<sensor_msgs::PointCloud2> ("pcl_output", 1);     
+  pcl::PointCloud<pcl::PointXYZ> cloud; 
+  sensor_msgs::PointCloud2 output; 
+
+  // Fill in the cloud data 
+  cloud.width = 8; 
+  cloud.height = 4; //此处也可以为cloud.width = 4; cloud.height = 2; 
+  cloud.points.resize(cloud.width * cloud.height); 
+
+  cloud.points[0].x = 1; 
+  cloud.points[0].y = 1; 
+  cloud.points[0].z = 0; 
+
+  cloud.points[1].x = -1; 
+  cloud.points[1].y = 1; 
+  cloud.points[1].z = 0; 
+
+  cloud.points[2].x = 1; 
+  cloud.points[2].y = -1; 
+  cloud.points[2].z = 0;
+ 
+  cloud.points[3].x = -1; 
+  cloud.points[3].y = -1; 
+  cloud.points[3].z = 0;
+ 
+  cloud.points[4].x = 1; 
+  cloud.points[4].y = 1; 
+  cloud.points[4].z = 2; 
+
+  cloud.points[5].x = -1; 
+  cloud.points[5].y = 1; 
+  cloud.points[5].z = 2; 
+
+  cloud.points[6].x = 1; 
+  cloud.points[6].y = -1; 
+  cloud.points[6].z = 2;
+ 
+  cloud.points[7].x = -1; 
+  cloud.points[7].y = -1; 
+  cloud.points[7].z = 2; 
+  //Convert the cloud to ROS message 
+  pcl::toROSMsg(cloud, output); 
+  output.header.frame_id = "odom"; 
+
+  ros::Rate loop_rate(1); 
+  while (ros::ok()) 
+  { 
+    pcl_pub.publish(output);
+    ros::spinOnce(); 
+    loop_rate.sleep(); 
+  } 
+  return 0; 
+}

@@ -1,0 +1,39 @@
+@@@ Display Point Cloud in Rviz
+@@@ VincentChan
+@@@ 6th-March 2020
+
+1) Create ROS package point_cloud_broadcast
+   Inside catkin_ws/src
+   $ catkin_create_pkg point_cloud_broadcast pcl_ros roscpp rospy sensor_msgs std_msgs 
+   $ cd ..
+   $ catkin_make
+
+2) Add the following into CMakeLists.txt
+
+  Noted that "show_point_cloud" is your .cpp file name
+
+  find_package(PCL REQUIRED)
+  include_directories(include${PCL_INCLUDE_DIRS})
+  link_directories(${PCL_LIBRARY_DIRS})
+  add_executable(show_point_cloud src/show_point_cloud.cpp)
+  target_link_libraries(show_point_cloud ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+
+3) Return to catkin_ws
+  $ catkin_make
+  $ source devel/setup.bash
+
+4) Run roscore and add_executable
+  $ roscore
+  $ rosrun point_cloud_broadcast show_point_cloud
+
+5) If you want to check the message published
+  $ rostopic echo pcl_output
+  **pcl_output is the rostopic
+
+6) Inside Rviz
+  6.1 Set Global Options -> Fixed Frame = odom
+  6.2 Add PointCloud2 and set topic = /pcl_output
+  6.3 Change pointcloud size in "Size", such as Size = 8
+  6.4 Change color in "Color Transformer", set to be AxisColor
+  6.5 Change pointcloud style -> "Style"
+
