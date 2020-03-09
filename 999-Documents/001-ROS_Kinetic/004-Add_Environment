@@ -48,3 +48,7 @@
   $ source devel/setup.bash
   $ roslaunch ur_modern_driver ur3_bringup.launch robot_ip:=158.132.153.174
   $ roslaunch robot_moveit robot_planning.launch
+
+
+  ****** One golden rule about URDF
+  "World" is only used to link "base_link". All other objects should join "base_link", not "world"

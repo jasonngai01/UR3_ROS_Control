@@ -2,7 +2,7 @@
 @@@ VincentChan
 @@@ 6th-March 2020
 
-Confirm you have import all necessary libraries
+1) Confirm you have import all necessary libraries
    import numpy as np (V)
    import time (V)
    import sys (V)
@@ -27,5 +27,13 @@ Confirm you have import all necessary libraries
        $ sudo python set.py install
     
     Then it should be able to solve the error.
+
+2) There are two types of display in Rviz
+   2.1) Display "shadow" for motion planning
+        $rosrun ur3_ai_controller xxxxxxx.py
+      **Nothing is required to change in Rviz (use MotionPLanning)
+   2.2) Control the "true" robot in Rviz
+        $rosrun ur3_ai_controller xxxxxxx.py
+      **In rviz, add planningScene instead of MotionPlanning
 
 
