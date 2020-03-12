@@ -29,6 +29,11 @@
     Then it should be able to solve the error.
 
 2) There are two types of display in Rviz
+   2.1) Set authority for your .py file
+        $sudo chmod +x controllerxxx.py
+        $catkin_make
+        $source devel/setup.bash
+
    2.1) Display "shadow" for motion planning
         $rosrun ur3_ai_controller xxxxxxx.py
       **Nothing is required to change in Rviz (use MotionPLanning)
