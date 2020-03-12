@@ -10,6 +10,7 @@
 2) Go to catkin_ws/src
   $ git clone -b kinetic-devel https://github.com/ros-industrial/universal_robot.git
   $ git clone -b kinetic-devel https://github.com/ros-industrial/ur_modern_driver.git
+  Back to catkin_ws... not catkin_ws/src
   $ catkin_make
 
 3) Noted that ur3_ip = 158.132.153.174
