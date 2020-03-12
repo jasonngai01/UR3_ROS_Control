@@ -36,7 +36,7 @@
 
 3) Open moveit assistant again and load it
 
-4) Regenerate collision matrix
+4) Regenerate collision matrix + ros controller
 
 5) Generate package
 
