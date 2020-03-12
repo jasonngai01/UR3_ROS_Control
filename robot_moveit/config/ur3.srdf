@@ -35,6 +35,7 @@
     <disable_collisions link1="ee_link" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="ee_link" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="ee_link" link2="wrist_3_link" reason="Adjacent" />
+    <disable_collisions link1="forearm_link" link2="table" reason="Never" />
     <disable_collisions link1="forearm_link" link2="upper_arm_link" reason="Adjacent" />
     <disable_collisions link1="forearm_link" link2="wrist_1_link" reason="Adjacent" />
     <disable_collisions link1="forearm_link" link2="wrist_2_link" reason="Never" />
@@ -43,7 +44,6 @@
     <disable_collisions link1="shoulder_link" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="shoulder_link" link2="wrist_2_link" reason="Never" />
     <disable_collisions link1="table" link2="upper_arm_link" reason="Never" />
-    <disable_collisions link1="table" link2="wrist_1_link" reason="Never" />
     <disable_collisions link1="table" link2="wrist_3_link" reason="Never" />
     <disable_collisions link1="wrist_1_link" link2="wrist_2_link" reason="Adjacent" />
     <disable_collisions link1="wrist_1_link" link2="wrist_3_link" reason="Never" />

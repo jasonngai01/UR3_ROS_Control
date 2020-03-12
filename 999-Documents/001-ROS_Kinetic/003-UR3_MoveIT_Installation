@@ -10,7 +10,6 @@
 2) Go to catkin_ws/src
   $ git clone -b kinetic-devel https://github.com/ros-industrial/universal_robot.git
   $ git clone -b kinetic-devel https://github.com/ros-industrial/ur_modern_driver.git
-  Back to catkin_ws... not catkin_ws/src
   $ catkin_make
 
 3) Noted that ur3_ip = 158.132.153.174
@@ -23,8 +22,8 @@
   
   5.1) Create new or edit existing?
        Choose "Create New Moveit"
-       Load catkin_ws/src/universal_robot/ur_description/urdf/ur3_robot.urdf.xacro
-
+       Load /home/vincent/catkin_ws/src/universal_robot/ur_description/urdf/ur3_robot.urdf.xacro
+       **vincent shoudl be changed to your account name
 
   5.2) Optimize Self-Collision Checking
        Choose "Generate Collision Matrix"
