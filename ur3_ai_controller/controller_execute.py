@@ -109,13 +109,13 @@ def ur3_set_end_effector_capture():
   print current_pose
   # XYZ are in terms of meters
   x_target = 0.20
-  y_target = 0.53
-  z_target = 0.18
+  y_target = 0.43
+  z_target = 0.13
   #Yaw,pitch and roll should be in degree    
-  # They are all relative to base link coorindates     
-  roll = 180
-  yaw = 180
-  pitch = 0
+  #They are all relative to base link coorindates     
+  roll = 90   #Green axis
+  yaw = 90    #Blue axis
+  pitch = 90   #Red axis
 
   pose_goal = geometry_msgs.msg.Pose()
   Q = euler_to_quaternion(yaw , pitch, roll)
@@ -145,12 +145,12 @@ def ur3_set_end_effector_goal():
   print current_pose
   # XYZ are in terms of meters
   x_target = 0.13
-  y_target = 0.52
+  y_target = 0.42
   z_target = 0.18
   #Yaw,pitch and roll should be in degree    
   # They are all relative to base link coorindates     
-  roll = 180
-  yaw = 180
+  roll = 0
+  yaw = 0
   pitch = 0
 
   pose_goal = geometry_msgs.msg.Pose()
@@ -184,6 +184,6 @@ if __name__=='__main__':
     ur3_set_end_effector_capture()
     rospy.sleep(3)
     #Acupuncture
-    ur3_set_end_effector_goal()
+    #ur3_set_end_effector_goal()
   except rospy.ROSInterruptException:
     pass

@@ -1,0 +1,56 @@
+@@@ Add GR2 Gripper as Endeffector
+@@@ VincentChan
+@@@ 6th-March 2020
+
+1) Download two mesh files from this github
+   Go to universal_robot/ur_description/meshes/, copy rg2_gripper and put in your own universal_robot/ur_description/meshes/
+
+2) You will need three urdf files
+   Go to universal_robot/ur_description/urdf, copy the following files
+   A. arm_extras_ur3.urdf.xacro (It helps to link the end effector and the tip link)
+   B. ur3.urdf.xacro (It is the original ur3 file)
+   C. rg2.urdf.xacro (It is the urdf for gr2)
+
+3) Open moveit assistant
+   3.1) Create new or edit existing?
+        A.Choose "Edit Existing Moveit Configuration Package"
+        B.Find "robot_moveit" that previously created
+
+   3.2) Optimize Self-Collision Checking
+        A.Choose "Generate Collision Matrix"
+
+   3.3) Define Planning Groups  
+        A.Delete the previous group 
+        B.Choose "Add Group"
+        C.Group Name = ur3
+          Kinematic Solver: UR3KinematicsPlugin
+          Group Default Planner: RRT
+          Choose "Add Kin. Chain"
+          Base Link = base_link
+          Tip Link = rg2_eef_link
+   
+   3.4) Define Robot Poses
+        You can use this to adjust all the joints, check the collision. If there is problem, check urdf.
+
+   3.5) End Effectors
+        A. Choose "Add End Effector"
+        B. End Effector Name = rg2
+           End Effector Group = ur3
+           Parent Link (usually part of the arm): tool0
+   
+   3.6) ROS Control
+        A. Delete previous controller
+        B. Choose "Auto Add Follow Joints Trajectory Controllers....."
+
+   3.7) Generate Configuration files
+        A. Choose Generate Package
+
+4) Testing
+   $ catkin_make
+   $ source devel/setup.bash
+   $ roslaunch robot_moveit robot_planning.launch
+
+   **The robot should not be able to plan if the target coordinates of endeffector will contact with "table".
+        
+
+      

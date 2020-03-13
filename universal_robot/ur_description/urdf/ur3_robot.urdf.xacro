@@ -2,7 +2,8 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro"
        name="ur3" >
 
-
+    <property name="M_PI" value="3.14159265359" />
+    <property name="robot_prefix1" value=""/>
 
 
   <!-- ur3 -->
@@ -11,7 +12,17 @@
   <!-- arm -->
   <xacro:ur3_robot prefix="" joint_limited="true"  />
 
+  <!-- arm extras 
+  <xacro:include filename="$(find ur_description)/urdf/arm_extras_ur3.urdf.xacro" />-->
 
+  <!-- rg2 gripper -->
+  <xacro:include filename="$(find ur_description)/urdf/rg2.urdf.xacro" />
+
+  <!-- arm extras 
+  <xacro:arm_extras prefix="${robot_prefix1}" joint_limited="true"/> -->
+
+  <!-- rg2 pipe -->
+  <xacro:rg2 prefix="${robot_prefix1}" joint_limited="true"/>
 
   <link name="world" />
 
@@ -76,7 +87,7 @@
     </visual>
     <collision>
       <geometry>
-        <box size="0.001 0.001 0.001"/>
+        <box size="0.8 1.0 0.02"/>
       </geometry>
     </collision>
   </link>
