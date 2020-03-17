@@ -3,6 +3,7 @@
 #include <pcl_conversions/pcl_conversions.h> 
 #include <sensor_msgs/PointCloud2.h> 
 #include <math.h>
+#include <visualization_msgs/Marker.h>
 
 #define PI 3.14159265
 
@@ -13,40 +14,44 @@ int capture_y[21] = {0};
 float output_x[21] = {0};
 float output_y[21] = {0};
 
+
+
 void capture_coorindates()
 {
-   capture_x[0] = 227; capture_y[0] = 251;
-   capture_x[1] = 219; capture_y[1] = 276;
-   capture_x[2] = 108; capture_y[2] = 211;
-   capture_x[3] = 331; capture_y[3] = 211;
-   capture_x[4] = 147; capture_y[4] = 131;
-   capture_x[5] = 115; capture_y[5] = 203;
-   capture_x[6] = 83; capture_y[6] = 163;
-   capture_x[7] = 60; capture_y[7] = 132;
-   capture_x[8] = 44; capture_y[8] = 100;
-   capture_x[9] = 147; capture_y[9] = 180;
-   capture_x[10] = 132; capture_y[10] = 131;
-   capture_x[11] = 116; capture_y[11] = 75;
-   capture_x[12] = 115; capture_y[12] = 28;
-   capture_x[13] = 179; capture_y[13] = 172;
-   capture_x[14] = 179; capture_y[14] = 108;
-   capture_x[15] = 220; capture_y[15] = 59;
-   capture_x[16] = 227; capture_y[16] = 20;
-   capture_x[17] = 220; capture_y[17] = 171;
-   capture_x[18] = 227; capture_y[18] = 123;
-   capture_x[19] = 227; capture_y[19] = 60;
-   capture_x[20] = 227; capture_y[20] = 20;  
+   capture_x[0] = 171; capture_y[0] = 331;
+   capture_x[1] = 188; capture_y[1] = 284;
+   capture_x[2] = 236; capture_y[2] = 252;
+   capture_x[3] = 275; capture_y[3] = 219;
+   capture_x[4] = 308; capture_y[4] = 188;
+   capture_x[5] = 91; capture_y[5] = 227;
+   capture_x[6] = 60; capture_y[6] = 195;
+   capture_x[7] = 44; capture_y[7] = 164;
+   capture_x[8] = 28; capture_y[8] = 140;
+   capture_x[9] = 123; capture_y[9] = 211;
+   capture_x[10] = 107; capture_y[10] = 156;
+   capture_x[11] = 91; capture_y[11] = 115;
+   capture_x[12] = 84; capture_y[12] = 68;
+   capture_x[13] = 147; capture_y[13] = 203;
+   capture_x[14] = 139; capture_y[14] = 139;
+   capture_x[15] = 132; capture_y[15] = 84;
+   capture_x[16] = 131; capture_y[16] = 51;
+   capture_x[17] = 180; capture_y[17] = 196;
+   capture_x[18] = 187; capture_y[18] = 124;
+   capture_x[19] = 180; capture_y[19] = 99;
+   capture_x[20] = 180; capture_y[20] = 59;  
 }
 
 void coord_shift()
 {
-   const float end_effector_x = 0.13;
-   const float end_effector_y = 0.52;
-
-   const float image_ref_x = 164.0;
-   const float image_ref_y = 243.0;
+   //Coordinates of end_effector (capture) in Rviz
+   const float end_effector_x = 0.14;
+   const float end_effector_y = 0.44;
+   //Coordinates of end_effecor (capture) in AI
+   const float image_ref_x = 127.5;
+   const float image_ref_y = 299.5;
    
-   float world_distance = 0.095;
+   //Distance of Image Origin --> A Image point
+   float world_distance = 0.125;
 
    float image_distance = 0.0;
    image_distance = sqrt(pow(image_ref_x,2)+pow(image_ref_y,2));
@@ -56,21 +61,22 @@ void coord_shift()
 
    for(int i=0;i<=21;i++)
    {
-     output_x[i] = capture_x[i]*transform_ratio+end_effector_x;
-     output_y[i] = capture_y[i]*transform_ratio+end_effector_y;
+     output_x[i] = capture_x[i]*transform_ratio+end_effector_x-0.045;
+     output_y[i] = capture_y[i]*transform_ratio+end_effector_y-0.026-0.06;
    }
 
 }
 
+
+
+
 int main (int argc, char **argv) 
-{ 
+{
   ros::init (argc, argv, "show_point_cloud"); 
-	
   ros::NodeHandle nh; 
-  ros::Publisher pcl_pub = nh.advertise<sensor_msgs::PointCloud2> ("pcl_output", 1);     
+  ros::Publisher pcl_pub = nh.advertise<sensor_msgs::PointCloud2> ("pcl_output", 1);  
   pcl::PointCloud<pcl::PointXYZ> cloud; 
   sensor_msgs::PointCloud2 output; 
-
 
   // Fill in the cloud data 
   cloud.width = 21; 
@@ -82,7 +88,7 @@ int main (int argc, char **argv)
   //Height and width = row and colomns of point cloud
   cloud.points.resize(cloud.width * cloud.height); 
 
-  for (int i = 0;i <= 21;i++)
+  for (int i = 0;i < 21;i++)
   {
     cloud.points[i].x = output_x[i];
     cloud.points[i].y = output_y[i];

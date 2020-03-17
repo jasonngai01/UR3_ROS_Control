@@ -6,7 +6,7 @@
 
     <!-- rg2 joint -->
     <joint name="rg2_joint" type="fixed">
-      <origin rpy="0 -1.57 0" xyz="0 0 0"/>
+      <origin rpy="0 -1.57 -1.57" xyz="0 0 0"/>
       <parent link="${prefix}tool0"/>
       <child link="${prefix}rg2_body_link"/>
     </joint>
