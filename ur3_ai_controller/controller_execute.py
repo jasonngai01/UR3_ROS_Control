@@ -74,7 +74,6 @@ def ur3_config():
   #print "========================================"
   #print "[UR3] Configuration Done"
 
-
 def ur3_set_initial_pose():
   global robot,group,scene,display_trajectory_publisher
   #Clear any pose in previous
@@ -97,25 +96,25 @@ def ur3_set_initial_pose():
   group.stop()
   group.clear_pose_targets()
   current_pose = group.get_current_pose().pose
-  print "------------ Initial Pose Information ------------"
-  print current_pose
-  print "[INFO] Initial Pose is executed"
+  #print "------------ Initial Pose Information ------------"
+  #print current_pose
+  print "[OK] UR3 reached initial position"
 
 
-def ur3_set_end_effector_capture():
+def ur3_set_goal(x,y,z,r_degree,y_degree,p_degree):
   global robot,group,scene,display_trajectory_publisher
   current_pose = group.get_current_pose().pose
-  print "Original Pose Information"
-  print current_pose
+  #print "Original Pose Information"
+  #print current_pose
   # XYZ are in terms of meters
-  x_target = 0.14
-  y_target = 0.44
-  z_target = 0.13
+  x_target = x
+  y_target = y
+  z_target = z
   #Yaw,pitch and roll should be in degree    
   #They are all relative to base link coorindates     
-  roll = 90   #Green axis
-  yaw = 90    #Blue axis
-  pitch = 90   #Red axis
+  roll = r_degree  #Green axis
+  yaw = y_degree    #Blue axis
+  pitch = p_degree   #Red axis
 
   pose_goal = geometry_msgs.msg.Pose()
   Q = euler_to_quaternion(yaw , pitch, roll)
@@ -133,58 +132,21 @@ def ur3_set_end_effector_capture():
   plan = group.go(wait=True)
   group.stop()
   current_pose = group.get_current_pose().pose
-  print "------------ Target Pose Information ------------"
-  print current_pose
+  #print current_pose
   group.clear_pose_targets()
-  print "[INFO] UR3 is ready to capture"
+  print("[OK] UR3 reached destinated position")
 
-def ur3_set_end_effector_goal(cloud_x,cloud_y):
-  global robot,group,scene,display_trajectory_publisher
-  current_pose = group.get_current_pose().pose
-  print "Original Pose Information"
-  print current_pose
-  # XYZ are in terms of meters
-  x_target = cloud_x+0.01
-  y_target = cloud_y
-  z_target = 0.10
-  #Yaw,pitch and roll should be in degree    
-  # They are all relative to base link coorindates     
-  roll = 90
-  yaw = 90
-  pitch = 90
 
-  pose_goal = geometry_msgs.msg.Pose()
-  Q = euler_to_quaternion(yaw , pitch, roll)
-  print Q
-  pose_goal.orientation.x = Q[0]
-  pose_goal.orientation.y = Q[1]
-  pose_goal.orientation.z = Q[2]
-  pose_goal.orientation.w = Q[3]
 
-  pose_goal.position.x = x_target
-  pose_goal.position.y = y_target
-  pose_goal.position.z = z_target
-  group.set_pose_target(pose_goal)
-  #group.set_planning_time(10)
-  #group.set_num_planning_attempts(5)
-  plan = group.go(wait=True)
-  group.stop()
-  current_pose = group.get_current_pose().pose
-  print "------------ Target Pose Information ------------"
-  print current_pose
-  group.clear_pose_targets()
-  print "[INFO] Goal of end effector is arrived"
 
 if __name__=='__main__':
   try:
     ur3_config()
     #Pose for initialization
     ur3_set_initial_pose()
-    rospy.sleep(3)
+    rospy.sleep(1)
     #Pose for capture
-    ur3_set_end_effector_capture()
-    rospy.sleep(3)
-    #Acupuncture
-    ur3_set_end_effector_goal(0.21,0.43)
+    ur3_set_goal(0.13,0.44,0.15,90,90,90)
+
   except rospy.ROSInterruptException:
     pass
