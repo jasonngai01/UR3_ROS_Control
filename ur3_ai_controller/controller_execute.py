@@ -100,6 +100,32 @@ def ur3_set_initial_pose():
   #print current_pose
   print "[OK] UR3 reached initial position"
 
+def ur3_set_final_pose():
+  global robot,group,scene,display_trajectory_publisher
+  #Clear any pose in previous
+  group.clear_pose_targets()
+  ## Then, we will get the current set of joint values for the group
+  group_variable_values = group.get_current_joint_values()
+
+  group_variable_values[0] = pi/4
+  group_variable_values[1] = -pi/2
+  group_variable_values[2] = 0
+  group_variable_values[3] = 0
+  group_variable_values[4] = 0
+  group_variable_values[5] = -pi
+
+
+  group.set_joint_value_target(group_variable_values)
+
+  plan_initial = group.plan()
+  #If you want to control the true robot,or move the simulated robot
+  #Instead of only showing trajectory
+  group.go(wait=True)
+  group.stop()
+  group.clear_pose_targets()
+  current_pose = group.get_current_pose().pose
+  #print current_pose
+  print "[OK] UR3 reached final position"
 
 def ur3_set_goal(x,y,z,r_degree,y_degree,p_degree):
   global robot,group,scene,display_trajectory_publisher
@@ -145,8 +171,17 @@ if __name__=='__main__':
     #Pose for initialization
     ur3_set_initial_pose()
     rospy.sleep(1)
-    #Pose for capture
+    #Caputre Fake Hand
     ur3_set_goal(0.13,0.44,0.15,90,90,90)
+    #Capture Real Hand
+    #ur3_set_goal(0.13,0.25,0.28,90,90,90)
+    #Reach a ACP
+    ur3_set_goal(0.05,0.48,0.04,45,90,90)
+    rospy.sleep(1)
+    ur3_set_goal(0.05,0.52,0.02,45,90,90)
+    rospy.sleep(2)
+    #Pose for final 
+    ur3_set_final_pose()
 
   except rospy.ROSInterruptException:
     pass
