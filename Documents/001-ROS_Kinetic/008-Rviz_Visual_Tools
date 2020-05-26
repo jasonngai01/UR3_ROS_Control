@@ -1,0 +1,19 @@
+@@@ Rviz Visual Tools Setup
+@@@ VincentChan
+@@@ 26th-May 2020
+
+Reference : https://github.com/PickNikRobotics/rviz_visual_tools
+
+1) Install rviz visual tools
+   $ cd catkin_ws/src
+   $ sudo apt-get install ros-melodic-rviz-visual-tools
+
+2) Build from source 
+   $ cd catkin_Ws
+   $ rosdep install --from-paths src --ignore-src --rosdistro melodic
+   $ catkin_make
+
+3) Run demo for testing
+   $ roslaunch rviz_visual_tools demo_rviz.launch
+   $ roslaunch rviz_visual_tools demo.launch
+
