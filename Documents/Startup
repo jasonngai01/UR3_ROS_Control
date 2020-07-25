@@ -3,5 +3,6 @@ Activation
 1) roslaunch ur_modern_driver ur3_bringup.launch robot_ip:=192.168.0.11
 2) roslaunch robot_moveit robot_planning.launch
 3) rosrun point_cloud_broadcast show_point_cloud
-4) roslaunch rviz_visual_tools demo.launch
-5) rosrun ur3_ai_controller controller_execute
+4)roslaunch rviz_visual_tools demo_rviz.launch
+5) roslaunch rviz_visual_tools demo.launch
+6) rosrun ur3_ai_controller controller_execute
